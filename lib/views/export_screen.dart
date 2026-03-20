@@ -141,7 +141,7 @@ class _ExportScreenState extends ConsumerState<ExportScreen> {
                   SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Your file will be exported to your Documents or Downloads folder.',
+                      'You\'ll be prompted to choose where to save your file.',
                       style: TextStyle(fontSize: 12, color: Colors.blueGrey),
                     ),
                   ),
