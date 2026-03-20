@@ -1,7 +1,7 @@
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
-import 'package:resume_builder/models/resume_data.dart';
+import 'package:resume_craft/models/resume_data.dart';
 
 class PdfService {
   static Future<pw.Document> generateResume(ResumeData data) async {

@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:resume_builder/models/resume_data.dart';
+import 'package:resume_craft/models/resume_data.dart';
 
 final resumeProvider = StateNotifierProvider<ResumeNotifier, ResumeData>((ref) {
   return ResumeNotifier();

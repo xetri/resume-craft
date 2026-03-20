@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
-import 'package:resume_builder/controllers/resume_controller.dart';
-import 'package:resume_builder/services/pdf_service.dart';
-import 'package:resume_builder/services/file_service.dart';
+import 'package:resume_craft/controllers/resume_controller.dart';
+import 'package:resume_craft/services/pdf_service.dart';
+import 'package:resume_craft/services/file_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ExportScreen extends HookConsumerWidget {
