@@ -4,11 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'views/splash_screen.dart';
 
 void main() {
-  runApp(
-    const ProviderScope(
-      child: ResumeApp(),
-    ),
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const ProviderScope(child: ResumeApp()));
 }
 
 class ResumeApp extends StatelessWidget {
@@ -18,7 +15,7 @@ class ResumeApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'ResumeCraft',
+      title: 'Resume Craft',
       theme: ThemeData(
         useMaterial3: true,
         colorScheme: ColorScheme.fromSeed(
@@ -26,12 +23,10 @@ class ResumeApp extends StatelessWidget {
           primary: const Color(0xFF4F46E5),
           secondary: const Color(0xFF10B981), // Emerald accent
           surface: Colors.white,
-          background: const Color(0xFFF9FAFB),
+          surfaceBright: const Color(0xFFF9FAFB),
           brightness: Brightness.light,
         ),
-        textTheme: GoogleFonts.outfitTextTheme(
-          ThemeData.light().textTheme,
-        ),
+        textTheme: GoogleFonts.outfitTextTheme(ThemeData.light().textTheme),
         appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white,
           foregroundColor: Color(0xFF1F2937),

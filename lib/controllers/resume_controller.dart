@@ -1,5 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../models/resume_data.dart';
+import 'package:resume_builder/models/resume_data.dart';
 
 final resumeProvider = StateNotifierProvider<ResumeNotifier, ResumeData>((ref) {
   return ResumeNotifier();
@@ -7,12 +7,15 @@ final resumeProvider = StateNotifierProvider<ResumeNotifier, ResumeData>((ref) {
 
 class ResumeNotifier extends StateNotifier<ResumeData> {
   ResumeNotifier()
-      : super(ResumeData(
+    : super(
+        ResumeData(
           personalInfo: PersonalInfo(),
-          experience: [],
-          education: [],
+          // Auto-initialize with one empty entry for Experience and Education
+          experience: [Experience()],
+          education: [Education()],
           skills: [],
-        ));
+        ),
+      );
 
   void updatePersonalInfo(PersonalInfo info) {
     state = state.copyWith(personalInfo: info);
@@ -58,7 +61,8 @@ class ResumeNotifier extends StateNotifier<ResumeData> {
 
   void removeSkill(String skill) {
     state = state.copyWith(
-        skills: state.skills.where((s) => s != skill).toList());
+      skills: state.skills.where((s) => s != skill).toList(),
+    );
   }
 
   void updateFileName(String fileName) {

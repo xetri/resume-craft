@@ -1,5 +1,3 @@
-import 'package:flutter/foundation.dart';
-
 class ResumeData {
   final PersonalInfo personalInfo;
   final List<Experience> experience;
@@ -67,6 +65,7 @@ class PersonalInfo {
 class Experience {
   final String company;
   final String role;
+  final String employmentType;
   final String startDate;
   final String endDate;
   final String description;
@@ -74,6 +73,7 @@ class Experience {
   Experience({
     this.company = '',
     this.role = '',
+    this.employmentType = 'Full-time',
     this.startDate = '',
     this.endDate = '',
     this.description = '',
@@ -82,6 +82,7 @@ class Experience {
   Experience copyWith({
     String? company,
     String? role,
+    String? employmentType,
     String? startDate,
     String? endDate,
     String? description,
@@ -89,6 +90,7 @@ class Experience {
     return Experience(
       company: company ?? this.company,
       role: role ?? this.role,
+      employmentType: employmentType ?? this.employmentType,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       description: description ?? this.description,
@@ -99,6 +101,7 @@ class Experience {
 class Education {
   final String institution;
   final String degree;
+  final String degreeLevel;
   final String fieldOfStudy;
   final String startDate;
   final String endDate;
@@ -106,6 +109,7 @@ class Education {
   Education({
     this.institution = '',
     this.degree = '',
+    this.degreeLevel = 'Bachelor\'s',
     this.fieldOfStudy = '',
     this.startDate = '',
     this.endDate = '',
@@ -114,6 +118,7 @@ class Education {
   Education copyWith({
     String? institution,
     String? degree,
+    String? degreeLevel,
     String? fieldOfStudy,
     String? startDate,
     String? endDate,
@@ -121,6 +126,7 @@ class Education {
     return Education(
       institution: institution ?? this.institution,
       degree: degree ?? this.degree,
+      degreeLevel: degreeLevel ?? this.degreeLevel,
       fieldOfStudy: fieldOfStudy ?? this.fieldOfStudy,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
