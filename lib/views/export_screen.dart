@@ -1,75 +1,39 @@
-import 'package:file_saver/file_saver.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../controllers/resume_controller.dart';
-import '../services/pdf_service.dart';
-import '../services/markdown_service.dart';
-import '../services/file_service.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:resume_builder/controllers/resume_controller.dart';
+import 'package:resume_builder/services/pdf_service.dart';
+import 'package:resume_builder/services/file_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ExportScreen extends ConsumerStatefulWidget {
+class ExportScreen extends HookConsumerWidget {
   const ExportScreen({super.key});
 
   @override
-  ConsumerState<ExportScreen> createState() => _ExportScreenState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final currentFileName = ref.read(resumeProvider).fileName;
+    final nameController = useTextEditingController(text: currentFileName);
 
-class _ExportScreenState extends ConsumerState<ExportScreen> {
-  late TextEditingController _nameController;
+    Future<void> exportPdf() async {
+      final data = ref.read(resumeProvider);
+      final pdf = await PdfService.generateResume(data);
+      final bytes = await pdf.save();
 
-  @override
-  void initState() {
-    super.initState();
-    final currentName = ref.read(resumeProvider).fileName;
-    _nameController = TextEditingController(text: currentName);
-  }
-
-  @override
-  void dispose() {
-    _nameController.dispose();
-    super.dispose();
-  }
-
-  Future<void> _exportPdf() async {
-    final data = ref.read(resumeProvider);
-    final pdf = await PdfService.generateResume(data);
-    final bytes = await pdf.save();
-
-    final result = await FileService.saveFile(
-      name: _nameController.text.isNotEmpty ? _nameController.text : 'my_resume',
-      bytes: bytes,
-      ext: 'pdf',
-      mimeType: MimeType.pdf,
-    );
-
-    if (result != null && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Resume saved as PDF: ${_nameController.text}.pdf')),
+      final result = await FileService.saveFile(
+        name: nameController.text.isNotEmpty
+            ? nameController.text
+            : 'my_resume',
+        bytes: bytes,
+        ext: 'pdf',
       );
+
+      if (result != null && context.mounted) {
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Resume saved as PDF: $result')));
+      }
     }
-  }
 
-  Future<void> _exportMarkdown() async {
-    final data = ref.read(resumeProvider);
-    final markdown = MarkdownService.generateMarkdown(data);
-    final bytes = markdown.codeUnits;
-
-    final result = await FileService.saveFile(
-      name: _nameController.text.isNotEmpty ? _nameController.text : 'my_resume',
-      bytes: bytes,
-      ext: 'md',
-      mimeType: MimeType.other,
-    );
-
-    if (result != null && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Resume saved as Markdown: ${_nameController.text}.md')),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF9FAFB),
       appBar: AppBar(title: const Text('Export Resume')),
@@ -78,7 +42,11 @@ class _ExportScreenState extends ConsumerState<ExportScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Icon(Icons.cloud_done_outlined, size: 80, color: Color(0xFF4F46E5)),
+            const Icon(
+              Icons.cloud_done_outlined,
+              size: 80,
+              color: Color(0xFF4F46E5),
+            ),
             const SizedBox(height: 32),
             Text(
               'Finalize & Export',
@@ -91,23 +59,24 @@ class _ExportScreenState extends ConsumerState<ExportScreen> {
             ),
             const SizedBox(height: 12),
             const Text(
-              'Choose your preferred format and save your professional resume.',
+              'Generate your professional resume as a high-quality PDF document.',
               textAlign: TextAlign.center,
               style: TextStyle(color: Colors.black54, height: 1.5),
             ),
             const SizedBox(height: 40),
             TextField(
-              controller: _nameController,
+              controller: nameController,
               decoration: const InputDecoration(
                 labelText: 'File Name',
                 prefixIcon: Icon(Icons.drive_file_rename_outline),
                 hintText: 'e.g., Jane_Doe_Resume_2024',
               ),
-              onChanged: (val) => ref.read(resumeProvider.notifier).updateFileName(val),
+              onChanged: (val) =>
+                  ref.read(resumeProvider.notifier).updateFileName(val),
             ),
             const SizedBox(height: 48),
             ElevatedButton.icon(
-              onPressed: _exportPdf,
+              onPressed: exportPdf,
               icon: const Icon(Icons.picture_as_pdf),
               label: const Text('Generate PDF Document'),
               style: ElevatedButton.styleFrom(
@@ -115,25 +84,13 @@ class _ExportScreenState extends ConsumerState<ExportScreen> {
                 backgroundColor: const Color(0xFF4F46E5),
               ),
             ),
-            const SizedBox(height: 16),
-            OutlinedButton.icon(
-              onPressed: _exportMarkdown,
-              icon: const Icon(Icons.code),
-              label: const Text('Download Markdown (.md)'),
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 56),
-                side: const BorderSide(color: Color(0xFF4F46E5)),
-                foregroundColor: const Color(0xFF4F46E5),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-              ),
-            ),
             const Spacer(),
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.blue.withOpacity(0.05),
+                color: Colors.blue.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.blue.withOpacity(0.1)),
+                border: Border.all(color: Colors.blue.withValues(alpha: 0.1)),
               ),
               child: const Row(
                 children: [
