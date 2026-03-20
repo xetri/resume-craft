@@ -1,4 +1,4 @@
-# resume_builder
+# Resume Craft
 
 A new Flutter project.
 

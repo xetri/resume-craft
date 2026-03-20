@@ -1,4 +1,4 @@
-package com.example.resume_builder
+package np.com.avinashpokhrel.resume_craft
 
 import io.flutter.embedding.android.FlutterActivity
 

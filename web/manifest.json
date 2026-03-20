@@ -1,6 +1,6 @@
 {
-    "name": "resume_builder",
-    "short_name": "resume_builder",
+    "name": "Resume Craft",
+    "short_name": "Resume Craft",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
