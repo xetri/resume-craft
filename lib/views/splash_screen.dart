@@ -56,26 +56,20 @@ class SplashScreen extends HookWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Container(
-                  padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: const LinearGradient(
-                      colors: [Color(0xFF4F46E5), Color(0xFF10B981)],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
                     boxShadow: [
                       BoxShadow(
                         color: const Color(0xFF4F46E5).withValues(alpha: 0.3),
-                        blurRadius: 20,
-                        spreadRadius: 5,
+                        blurRadius: 30,
+                        spreadRadius: 10,
                       ),
                     ],
                   ),
-                  child: const Icon(
-                    Icons.description_rounded,
-                    size: 80,
-                    color: Colors.white,
+                  child: Image.asset(
+                    'assets/icon.png',
+                    height: 160,
+                    width: 160,
                   ),
                 ),
                 const SizedBox(height: 24),
