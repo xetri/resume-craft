@@ -58,11 +58,12 @@ Ensure you have the Flutter SDK installed on your machine. You can follow the [o
 
 ## 🏗️ Supported Platforms
 
+- ✅ **Web**
 - ✅ **Android**
 - ✅ **Linux**
-- ✅ **Web**
-- 🚧 **iOS** (Coming Soon)
-- 🚧 **macOS/Windows** (Experimental)
+- ✅ **Windows**
+- 🚧 **iOS**
+- 🚧 **macOS**
 
 ---
 

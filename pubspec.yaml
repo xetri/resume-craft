@@ -58,6 +58,10 @@ flutter_launcher_icons:
   linux:
     generate: true
     image_path: "assets/icon.png"
+  windows:
+    generate: true
+    image_path: "assets/icon.png"
+    icon_size: 256 # Optional: Windows supports multiple icon sizes
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

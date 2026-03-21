@@ -72,9 +72,30 @@ jobs:
           name: linux-binary
           path: resume_craft_linux.zip
 
+  build-windows:
+    name: Build Windows Desktop
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+      - name: Build Windows
+        run: |
+          flutter config --enable-windows-desktop
+          flutter build windows --release
+      - name: Zip Windows Build
+        run: |
+          powershell -Command "Compress-Archive -Path build/windows/x64/runner/Release/* -DestinationPath resume_craft_windows.zip"
+      - name: Upload Windows Binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-binary
+          path: resume_craft_windows.zip
+
   create-release:
     name: Create GitHub Release
-    needs: [build-android, build-linux]
+    needs: [build-android, build-linux, build-windows]
     if: github.ref == 'refs/heads/master' || startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
     steps:
@@ -86,6 +107,10 @@ jobs:
         with:
           name: linux-binary
           path: .
+      - uses: actions/download-artifact@v4
+        with:
+          name: windows-binary
+          path: .
       - name: Create Release
         uses: softprops/action-gh-release@v2
         with:
@@ -94,6 +119,7 @@ jobs:
           files: |
             app-release.apk
             resume_craft_linux.zip
+            resume_craft_windows.zip
           generate_release_notes: true
           draft: false
           prerelease: false
